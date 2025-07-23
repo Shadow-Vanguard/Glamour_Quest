@@ -1,0 +1,517 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlamourQuest Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #FF69B4;    /* Hot Pink */
+            --secondary-color: #FFB6C1;  /* Light Pink */
+            --accent-color: #FF1493;     /* Deep Pink */
+            --text-color: #333;
+            --bg-color: #FFF0F5;         /* Lavender Blush */
+            --card-bg: #ffffff;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+
+        }
+        .sidebar {
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding-top: 20px;
+            position: fixed;  /* Make sidebar fixed */
+            width: inherit;   /* Maintain width based on col-md-3/col-lg-2 */
+            z-index: 100;     /* Ensure sidebar stays on top */
+            overflow-y: auto; /* Allow scrolling if content is too long */
+        }
+        .sidebar-sticky {
+            position: relative;  /* Change from sticky to relative */
+            height: auto;       /* Allow content to determine height */
+            padding-top: .5rem;
+            overflow-x: hidden;
+            overflow-y: visible;
+        }
+        .sidebar .nav-link {
+            color: white;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+        .sidebar .nav-link:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateX(5px);
+        }
+        .sidebar .nav-link.active {
+            background-color: rgba(255,255,255,0.2);
+        }
+        .main-content {
+            padding: 20px;
+
+        }
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 15px 20px;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .header .profile-dropdown .dropdown-toggle {
+            color: white;
+        }
+        .header .profile-dropdown .dropdown-menu {
+            background-color: var(--card-bg);
+        }
+        .header .profile-dropdown .dropdown-item:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        .profile-dropdown .dropdown-toggle::after {
+            display: none;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        .scrolling-background {
+            height: 500px;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 1s ease-in-out;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        .scrolling-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(255,105,180,0.3), rgba(255,182,193,0.3));
+            z-index: 1;
+        }
+        .logo-container {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: white;
+            background-color: rgba(255, 105, 180, 0.6); /* Pink shade with transparency */
+            padding: 15px;
+            cursor: pointer;
+            z-index: 2;
+            transition: all 0.3s;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .arrow:hover {
+            background-color: rgba(255, 105, 180, 0.8); /* Darker pink on hover */
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .arrow-left {
+            left: 20px;
+        }
+        
+        .arrow-right {
+            right: 20px;
+        }
+
+        .service-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card-img-container {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-img-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            transition: background 0.3s ease;
+        }
+
+        .service-card:hover .card-img-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2));
+        }
+
+        .overlay-content {
+            color: white;
+        }
+
+        .overlay-content .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            padding: 10px 30px;
+            transition: all 0.3s ease;
+        }
+
+        .overlay-content .btn-primary:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.05);
+        }
+
+        .services-section h2 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        html {
+            height: 100%;
+            overflow: hidden;  /* Prevent body overflow */
+        }
+        
+        body {
+            height: 100%;
+            overflow: hidden;  /* Prevent elastic scrolling */
+        }
+
+        .container-fluid {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* Update sidebar styles */
+        .sidebar {
+            position: fixed;
+            height: 100vh;
+            width: 250px;  /* Fixed width instead of inherit */
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        /* Update main content styles */
+        .col-md-9.ms-sm-auto.col-lg-10 {
+            margin-left: 250px;  /* Match sidebar width */
+            height: 100vh;
+            overflow-y: auto;  /* Allow scrolling in main content */
+            padding: 20px;
+        }
+
+        /* Adjust responsive behavior */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .col-md-9.ms-sm-auto.col-lg-10 {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+        }
+
+        /* Additional styles for Current Offers section */
+        .offer-card {
+            border: 1px solid var(--primary-color);  /* Add border */
+            border-radius: 15px;  /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Subtle shadow */
+            transition: transform 0.3s, box-shadow 0.3s;  /* Smooth transition */
+        }
+
+        .offer-card:hover {
+            transform: translateY(-5px);  /* Lift effect on hover */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);  /* Darker shadow on hover */
+        }
+
+        .current-offers h2 {
+            color: var(--accent-color);  /* Change heading color */
+            font-weight: 700;  /* Bold font */
+        }
+
+        .current-offers .card-body {
+            text-align: center;  /* Center text in card body */
+        }
+
+        .current-offers .btn-primary {
+            background-color: var(--primary-color);  /* Button color */
+            border: none;  /* Remove border */
+            transition: background-color 0.3s;  /* Smooth transition */
+        }
+
+        .current-offers .btn-primary:hover {
+            background-color: var(--accent-color);  /* Change button color on hover */
+        }
+
+        /* New offer tag styles */
+        .offer-tag {
+            display: inline-block;
+            background-color: red;  /* Red background for the tag */
+            color: white;  /* White text color */
+            padding: 5px 10px;  /* Padding for the tag */
+            border-radius: 5px;  /* Rounded corners */
+            margin-bottom: 10px;  /* Space below the tag */
+            font-weight: bold;  /* Bold text */
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar">
+                <div class="sidebar-sticky">
+                    <h2 class="text-center mb-4">GlamourQuest</h2>
+                    <div class="logo-container">
+                        <img src="{% static 'images/logo.png' %}" alt="GlamourQuest Logo" class="logo">
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'client_dashboard' %}">
+                                <i class="fas fa-home me-2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'client_profile' %}">
+                                <i class="fas fa-user me-2"></i> Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'client_current_bookings' %}">
+                                <i class="fas fa-calendar-alt me-2"></i> Appointments
+                            </a>
+                        </li>   
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'view_payments' %}">
+                                <i class="fas fa-money-bill"></i> Payments
+                            </a>
+                        </li>
+                        <li class="nav-item"></li>
+                            <a class="nav-link" href="{% url 'client_bookings' %}" id="feedback">
+                                <i class="fas fa-concierge-bell me-2"></i> Feedback
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'client_services' %}">
+                                <i class="fas fa-concierge-bell me-2"></i> Services
+                            </a>
+                        </li>
+                       
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'service_history' %}">
+                                <i class="fas fa-history me-2"></i> Service History
+                            </a>
+                        </li>
+                      
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'service_view' %}">
+                                <i class="fas fa-image"></i> Detect Problem</i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'detect_disease' %}">
+                                <i class="fas fa-stethoscope me-2"></i> Detect Disease
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'face' %}">
+                                <i class="fas fa-hair"></i> Virtual Try On
+                            </a>
+                        </li>
+                       
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <!-- Header -->
+                <header class="header d-flex justify-content-between align-items-center mb-4 p-3 bg-white rounded shadow-sm">
+                    <h1 class="h3 mb-0">Welcome, {{ client.first_name }}!</h1>
+                    <div class="profile-dropdown dropdown">
+                        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{% static 'images/profile.png' %}" alt="Profile" width="32" height="32" class="rounded-circle me-2">
+                            <strong>{{ client.first_name }}</strong>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end text-small shadow" aria-labelledby="dropdownUser1">
+                            <li><a class="dropdown-item" href="{% url 'client_profile' %}">Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'client_update' %}">Update Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
+                        </ul>
+                    </div>
+                </header>
+
+                <!-- Scrolling background with arrows -->
+                <div class="scrolling-background">
+                    <div class="arrow arrow-left" onclick="changeBackground(-1)">&#10094;</div>
+                    <div class="arrow arrow-right" onclick="changeBackground(1)">&#10095;</div>
+                </div>
+
+                <!-- Services Section -->
+                <div class="services-section mt-5">
+                    <h2 class="text-center mb-4">Our Services</h2>
+                    <div class="row">
+                        <!-- For Women Services -->
+                        <div class="col-md-6 mb-4">
+                            <div class="service-card card h-100">
+                                <div class="card-img-container">
+                                    <img src="{% static 'images/forwomen.jpg' %}" class="card-img-top" alt="Women Services">
+                                    <div class="card-img-overlay d-flex align-items-end">
+                                        <div class="overlay-content w-100 text-center p-3">
+                                            <h3 class="card-title mb-3">For Women</h3>
+                                            <a href="{% url 'client_women_services' %}" class="btn btn-primary" id="womenbooking">Explore Services</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- For Men Services -->
+                        <div class="col-md-6 mb-4">
+                            <div class="service-card card h-100">
+                                <div class="card-img-container">
+                                    <img src="{% static 'images/formen.jpg' %}" class="card-img-top" alt="Men Services">
+                                    <div class="card-img-overlay d-flex align-items-end">
+                                        <div class="overlay-content w-100 text-center p-3">
+                                            <h3 class="card-title mb-3">For Men</h3>
+                                            <a href="{% url 'client_men_services' %}" class="btn btn-primary">Explore Services</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add this section in the main content area where you want to display the offers -->
+                <div class="current-offers mt-5">
+                    <h2 class="text-center mb-4">Current women's Offers</h2>
+                    <div class="row">
+                        {% for offer in current_offers %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card offer-card">
+                                <div class="card-img-container">
+                                    <img src="{{ offer.service.image.url }}" alt="{{ offer.title }}" class="card-img-top">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ offer.title }}</h5>
+                                    <span class="badge offer-tag">New Offer</span>
+                                    <p class="card-text">{{ offer.description }}</p>
+                                    <p class="card-text"><strong>Discount:</strong> {{ offer.discount_percentage }}%</p>
+                                    <p class="card-text"><strong>Service:</strong> {{ offer.service.service_name }}</p>
+                                    <a href="{% url 'service_detail' offer.service.id %}" class="btn btn-primary">View Service</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Add this section for Men's Current Offers -->
+                <div class="current-offers mt-5">
+                    <h2 class="text-center mb-4">Current Men's Offers</h2>
+                    <div class="row">
+                        {% for offer in current_men_offers %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card offer-card">
+                                <div class="card-img-container">
+                                    <img src="{{ offer.service.image.url }}" alt="{{ offer.title }}" class="card-img-top">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ offer.title }}</h5>
+                                    <span class="badge offer-tag">New Offer</span>
+                                    <p class="card-text">{{ offer.description }}</p>
+                                    <p class="card-text"><strong>Discount:</strong> {{ offer.discount_percentage }}%</p>
+                                    <p class="card-text"><strong>Service:</strong> {{ offer.service.service_name }}</p>
+                                    <a href="{% url 'service_detail_male' offer.service.id %}" class="btn btn-primary">View Service</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="col-12 text-center">
+                            <p>No current men's offers available.</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- End of Men's Current Offers Section -->
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentIndex = 0;
+        const backgrounds = [
+            "{% static 'images/hair-styling.jpg' %}",
+            "{% static 'images/manicure.jpg' %}",
+            "{% static 'images/hair-spa.jpg' %}",
+            "{% static 'images/all-type.jpg' %}"
+        ];
+
+        function changeBackground(direction = 1) {
+            currentIndex = (currentIndex + direction + backgrounds.length) % backgrounds.length;
+            updateBackground();
+        }
+
+        function updateBackground() {
+            const scrollingBackground = document.querySelector('.scrolling-background');
+            scrollingBackground.style.backgroundImage = `url(${backgrounds[currentIndex]})`;
+        }
+
+        // Set initial background and start cycling
+        window.onload = function() {
+            updateBackground();
+            setInterval(() => changeBackground(1), 5000);  // Change background every 5 seconds
+        };
+    </script>
+</body>
+</html>

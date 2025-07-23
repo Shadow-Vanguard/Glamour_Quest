@@ -1,0 +1,258 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Male Offer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #007bff; /* Bootstrap primary color */
+            --secondary-color: #6c757d; /* Bootstrap secondary color */
+            --background-color: #f4f7fa; /* Light background for the dashboard */
+            --card-bg: #ffffff; /* Card background */
+            --text-color: #333; /* Text color */
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        .sidebar {
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding-top: 20px;
+        }
+        .sidebar-sticky {
+            position: sticky;
+            top: 0;
+            height: calc(100vh - 48px);
+            padding-top: .5rem;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .sidebar .nav-link {
+            color: white;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+        .sidebar .nav-link:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateX(5px);
+        }
+        .sidebar .nav-link.active {
+            background-color: rgba(255,255,255,0.2);
+        }
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 15px 20px;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .profile-dropdown .dropdown-toggle {
+            color: white;
+        }
+        .profile-dropdown .dropdown-menu {
+            background-color: var(--card-bg);
+        }
+        .profile-dropdown .dropdown-item:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        .btn-space {
+            margin-right: 5px;
+        }
+        .logo-container {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky sidebar-sticky">
+                    <h2 class="text-center mb-4">GlamourQuest Admin</h2>
+                    <div class="logo-container">
+                        <img src="{% static 'images/logo.png' %}" alt="GlamourQuest Logo" class="logo">
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'admin_dashboard' %}">
+                                <i class="fas fa-home me-2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'manage_client' %}">
+                                <i class="fas fa-users me-2"></i> Manage Clients
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'manage_employee' %}" id="manage_employee">
+                                <i class="fas fa-user-tie me-2"></i> Manage Employees
+                            </a>
+                        </li>
+                    
+                       
+        
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'service_selection' %}">
+                                <i class="fas fa-cogs me-2"></i> Add services
+                            </a>
+                        </li>
+                        
+                       
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'category_selection' %}">
+                                <i class="fas fa-tags me-2"></i> Add category
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'offer_selection' %}">
+                                <i class="fas fa-gift me-2"></i> Add offers
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'offer_list_selection' %}">
+                                <i class="fas fa-gifts me-2"></i> view offers 
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="header d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+                    <h1>Edit Male Offer</h1>
+                </div>
+
+                <!-- Edit Offer Form -->
+                <div class="card">
+                    <div class="card-body">
+                        <form method="POST" action="{% url 'edit_offer_male' offer.id %}" onsubmit="return validateOfferForm();">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Offer Title:</label>
+                                <input type="text" name="title" class="form-control" required id="title" value="{{ offer.title }}" oninput="validateTitle(this)">
+                                <div id="titleError" class="text-danger" style="display: none;">Title must contain only letters.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description:</label>
+                                <textarea name="description" class="form-control" required id="description" oninput="validateDescription(this)">{{ offer.description }}</textarea>
+                                <div id="descriptionError" class="text-danger" style="display: none;">Description must contain only letters.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="discount_percentage" class="form-label">Discount Percentage:</label>
+                                <input type="number" name="discount_percentage" class="form-control" step="0.01" min="0" max="100" required id="discount_percentage" value="{{ offer.discount_percentage }}" oninput="validateDiscount(this)">
+                                <div id="discountError" class="text-danger" style="display: none;">Discount must be between 0 and 100.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="start_date" class="form-label">Start Date:</label>
+                                <input type="date" name="start_date" class="form-control" required id="start_date" value="{{ offer.start_date }}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="end_date" class="form-label">End Date:</label>
+                                <input type="date" name="end_date" class="form-control" required id="end_date" value="{{ offer.end_date }}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="is_active" class="form-label">Is Active:</label>
+                                <input type="checkbox" name="is_active" {% if offer.is_active %}checked{% endif %}>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Update Male Offer</button>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function validateTitle(input) {
+            const value = input.value;
+            const errorDiv = document.getElementById('titleError');
+            const regex = /^[A-Za-z\s]+$/; // Regex to allow only letters and spaces
+
+            if (!regex.test(value)) {
+                errorDiv.style.display = 'block'; // Show error message
+                input.setCustomValidity('Invalid title'); // Set custom validity message
+            } else {
+                errorDiv.style.display = 'none'; // Hide error message
+                input.setCustomValidity(''); // Reset custom validity
+            }
+        }
+
+        function validateDescription(input) {
+            const value = input.value;
+            const errorDiv = document.getElementById('descriptionError');
+            const regex = /^[A-Za-z\s]+$/; // Regex to allow only letters and spaces
+
+            if (!regex.test(value)) {
+                errorDiv.style.display = 'block'; // Show error message
+                input.setCustomValidity('Invalid description'); // Set custom validity message
+            } else {
+                errorDiv.style.display = 'none'; // Hide error message
+                input.setCustomValidity(''); // Reset custom validity
+            }
+        }
+
+        function validateDiscount(input) {
+            const value = input.value;
+            const errorDiv = document.getElementById('discountError');
+
+            if (value < 0 || value > 100) {
+                errorDiv.style.display = 'block'; // Show error message
+                input.setCustomValidity('Discount must be between 0 and 100'); // Set custom validity message
+            } else {
+                errorDiv.style.display = 'none'; // Hide error message
+                input.setCustomValidity(''); // Reset custom validity
+            }
+        }
+
+        function validateOfferForm() {
+            const titleInput = document.getElementById('title');
+            const descriptionInput = document.getElementById('description');
+            const discountInput = document.getElementById('discount_percentage');
+            validateTitle(titleInput);
+            validateDescription(descriptionInput);
+            validateDiscount(discountInput);
+            return titleInput.checkValidity() && descriptionInput.checkValidity() && discountInput.checkValidity(); // Return true if valid
+        }
+    </script>
+</body>
+</html>

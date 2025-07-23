@@ -1,0 +1,159 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlamourQuest - Contact Us</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #FF69B4;
+            --secondary-color: #FFB6C1;
+            --text-color: #333;
+            --bg-color: #FFF0F5;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure the body takes full height */
+        }
+        header {
+            background-color: var(--primary-color);
+            padding: 1rem;
+            text-align: center;
+            color: white;
+        }
+        nav {
+            margin: 1rem 0;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            flex: 1; /* Allow the container to grow */
+        }
+        h2 {
+            color: var(--primary-color);
+            text-align: center;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            width: 100%;
+        }
+        .contact-info {
+            margin: 20px 0;
+        }
+        .contact-info span {
+            display: block;
+            margin: 5px 0;
+        }
+        .contact-form {
+            margin-top: 20px;
+        }
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid var(--secondary-color);
+            border-radius: 5px;
+        }
+        .contact-form button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .contact-form button:hover {
+            background-color: var(--secondary-color);
+        }
+        .social-icons {
+            margin-top: 10px;
+        }
+        .social-icons a {
+            margin: 0 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem; /* Adjust size as needed */
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>GlamourQuest</h1>
+    <nav>
+        <a href="{% url 'index' %}">Home</a>
+        <a href="{% url 'services' %}">Services</a>
+        <a href="{% url 'gallery' %}">Gallery</a>
+        <a href="{% url 'about' %}">About</a>
+        <a href="{% url 'blog' %}">Blog</a>
+        <a href="{% url 'contact' %}">Contact</a>
+        <a href="{% url 'login' %}">Login</a>
+    </nav>
+</header>
+
+<div class="container">
+    <h2>Contact Us</h2>
+    <p>Welcome to GlamourQuest, your destination for beauty and relaxation.</p>
+    <div class="contact-info">
+        <span><strong>Location:</strong> Kottayam, Kerala, India</span>
+        <span><strong>Phone:</strong> +91 123 456 7890</span>
+        <span><strong>Email:</strong> info@glamourquest.com</span>
+    </div>
+
+    <!-- <div class="contact-form">
+        <h3>Get in Touch</h3>
+        <form action="{% url 'contact' %}" method="POST">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </div> -->
+
+    <div class="additional-info">
+        <h3>Why Choose GlamourQuest?</h3>
+        <p>At GlamourQuest, we prioritize your beauty and comfort. Our expert stylists are dedicated to providing you with the best services using premium products in a relaxing atmosphere.</p>
+    </div>
+
+    <div class="social-icons">
+        <h3>Follow Us</h3>
+        <a href="https://www.facebook.com" target="_blank" class="fab fa-facebook-f"></a>
+        <a href="https://www.instagram.com" target="_blank" class="fab fa-instagram"></a>
+        <a href="https://www.twitter.com" target="_blank" class="fab fa-twitter"></a>
+    </div>
+</div>
+
+<footer class="footer">
+    <p>&copy; 2023 GlamourQuest. All rights reserved.</p>
+</footer>
+
+<!-- Font Awesome for social icons -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+
+</body>
+</html>

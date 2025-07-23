@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Hairstyle Try-On</title>
+    {% load static %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.11/interact.min.js"></script>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #333;
+        }
+        #container {
+            position: relative;
+            display: inline-block;
+            border: 2px solid #ddd;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        #uploadedImage {
+            width: 300px;
+            height: auto;
+            display: block;
+        }
+        .hairstyle-wrapper {
+            position: absolute;
+            top: 50px;
+            left: 80px;
+            width: 150px;
+            height: 150px;
+            border: 2px solid green;
+            display: none;
+        }
+        .hairstyle {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            cursor: grab;
+            user-select: none;
+        }
+        .resize-handle {
+            width: 10px;
+            height: 10px;
+            background-color: green;
+            position: absolute;
+            border-radius: 50%;
+        }
+        .resize-handle.topleft { top: -5px; left: -5px; cursor: nwse-resize; }
+        .resize-handle.topright { top: -5px; right: -5px; cursor: nesw-resize; }
+        .resize-handle.bottomleft { bottom: -5px; left: -5px; cursor: nesw-resize; }
+        .resize-handle.bottomright { bottom: -5px; right: -5px; cursor: nwse-resize; }
+        .resize-handle.top { top: -5px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
+        .resize-handle.bottom { bottom: -5px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
+        .resize-handle.left { left: -5px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
+        .resize-handle.right { right: -5px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
+        #videoElement {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Virtual Hairstyle Try-On</h1>
+    <input type="file" id="imageUpload" accept="image/*">
+    <button id="startVideoButton">Start Video</button>
+    <button id="stopVideoButton" style="display:none;">Stop Video</button>
+    <video id="videoElement" width="300" height="auto" style="display:none;" autoplay></video>
+    <div id="container">
+        <img id="uploadedImage" src="{% static 'default_profile.jpg' %}" alt="Uploaded Image">
+        <div id="hairstyleWrapper" class="hairstyle-wrapper">
+            <img id="hairstyleOverlay" class="hairstyle" src="">
+            <div class="resize-handle topleft"></div>
+            <div class="resize-handle topright"></div>
+            <div class="resize-handle bottomleft"></div>
+            <div class="resize-handle bottomright"></div>
+            <div class="resize-handle top"></div>
+            <div class="resize-handle bottom"></div>
+            <div class="resize-handle left"></div>
+            <div class="resize-handle right"></div>
+        </div>
+    </div>
+    <h3>Select a Hairstyle:</h3>
+    <button onclick="changeHairstyle('{% static 'hairstyles/1.png' %}')">
+        <img src="{% static 'hairstyles/1.png' %}" alt="Hairstyle 1" class="hairstyle-btn">
+    </button>
+    <button onclick="changeHairstyle('{% static 'hairstyles/2.png' %}')">
+        <img src="{% static 'hairstyles/2.png' %}" alt="Hairstyle 2" class="hairstyle-btn">
+    </button>
+    <button onclick="changeHairstyle('{% static 'hairstyles/3.png' %}')">
+        <img src="{% static 'hairstyles/3.png' %}" alt="Hairstyle 3" class="hairstyle-btn">
+    </button>
+    <button onclick="changeHairstyle('{% static 'hairstyles/4.png' %}')">
+        <img src="{% static 'hairstyles/4.png' %}" alt="Hairstyle 4" class="hairstyle-btn">
+    </button>
+    <button onclick="changeHairstyle('{% static 'hairstyles/5.png' %}')">
+        <img src="{% static 'hairstyles/5.png' %}" alt="Hairstyle 5" class="hairstyle-btn">
+    </button>
+    <button onclick="changeHairstyle('{% static 'hairstyles/6.png' %}')">
+        <img src="{% static 'hairstyles/6.png' %}" alt="Hairstyle 6" class="hairstyle-btn">
+    </button>
+    <button id="downloadButton" style="display:none;">Download Hairstyle</button>
+    <script>
+        function changeHairstyle(imgSrc) {
+            let wrapper = document.getElementById('hairstyleWrapper');
+            let overlay = document.getElementById('hairstyleOverlay');
+            overlay.src = imgSrc;
+            wrapper.style.display = 'block';
+            document.getElementById('downloadButton').style.display = 'block';
+        }
+        interact("#hairstyleWrapper").draggable({
+            listeners: {
+                move(event) {
+                    let target = event.target;
+                    let x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+                    let y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+                    target.style.transform = `translate(${x}px, ${y}px)`;
+                    target.setAttribute('data-x', x);
+                    target.setAttribute('data-y', y);
+                }
+            }
+        });
+        interact("#hairstyleWrapper").resizable({
+            edges: { top: true, left: true, bottom: true, right: true },
+            listeners: {
+                move(event) {
+                    let target = event.target;
+                    let x = parseFloat(target.getAttribute('data-x')) || 0;
+                    let y = parseFloat(target.getAttribute('data-y')) || 0;
+                    target.style.width = `${event.rect.width}px`;
+                    target.style.height = `${event.rect.height}px`;
+                    target.style.transform = `translate(${x}px, ${y}px)`;
+                }
+            }
+        });
+        document.getElementById('imageUpload').addEventListener('change', function(event) {
+            let reader = new FileReader();
+            reader.onload = function() {
+                document.getElementById('uploadedImage').src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        });
+
+        
+
+
+
+
+        document.addEventListener("click", function(event) {
+            let wrapper = document.getElementById("hairstyleWrapper");
+            
+            // Check if the clicked element is inside the hairstyle wrapper
+            if (!wrapper.contains(event.target)) {
+                wrapper.style.border = "none"; // Hide border
+                let handles = document.querySelectorAll(".resize-handle");
+                handles.forEach(handle => handle.style.display = "none"); // Hide handles
+            }
+        });
+
+        // Show handles and border when clicking on the hairstyle
+        document.getElementById("hairstyleWrapper").addEventListener("click", function(event) {
+            event.stopPropagation(); // Prevent event from bubbling to the document
+            this.style.border = "2px solid green"; // Show border
+            let handles = document.querySelectorAll(".resize-handle");
+            handles.forEach(handle => handle.style.display = "block"); // Show handles
+        });
+
+        document.getElementById('downloadButton').addEventListener('click', function() {
+            let uploadedImage = document.getElementById('uploadedImage');
+            let overlay = document.getElementById('hairstyleOverlay');
+            let wrapper = document.getElementById('hairstyleWrapper');
+
+            // Create a canvas to combine images
+            let canvas = document.createElement('canvas');
+            let ctx = canvas.getContext('2d');
+
+            // Set canvas dimensions to match the uploaded image
+            canvas.width = uploadedImage.width;
+            canvas.height = uploadedImage.height;
+
+            // Draw the uploaded image
+            ctx.drawImage(uploadedImage, 0, 0);
+
+            // Get the current position and size of the hairstyle overlay
+            let overlayWidth = overlay.width;
+            let overlayHeight = overlay.height;
+            let x = parseFloat(wrapper.getAttribute('data-x')) || 0;
+            let y = parseFloat(wrapper.getAttribute('data-y')) || 0;
+
+            // Draw the hairstyle overlay at its current position and size
+            ctx.drawImage(overlay, x, y, overlayWidth, overlayHeight);
+
+            // Create a link to download the combined image
+            let link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png'); // Get the data URL of the canvas
+            link.download = 'combined_image.png'; // Set the default download file name
+            document.body.appendChild(link);
+            link.click(); // Trigger the download
+            document.body.removeChild(link); // Clean up
+        });
+
+        const videoElement = document.getElementById('videoElement');
+        const startVideoButton = document.getElementById('startVideoButton');
+        const stopVideoButton = document.getElementById('stopVideoButton');
+
+        startVideoButton.addEventListener('click', async () => {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            videoElement.srcObject = stream;
+            videoElement.style.display = 'block';
+            startVideoButton.style.display = 'none';
+            stopVideoButton.style.display = 'block';
+        });
+
+        stopVideoButton.addEventListener('click', () => {
+            const stream = videoElement.srcObject;
+            const tracks = stream.getTracks();
+            tracks.forEach(track => track.stop());
+            videoElement.srcObject = null;
+            videoElement.style.display = 'none';
+            startVideoButton.style.display = 'block';
+            stopVideoButton.style.display = 'none';
+        });
+    </script>
+</body>
+</html>

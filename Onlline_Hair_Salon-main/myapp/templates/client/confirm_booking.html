@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation</title>
+</head>
+<body>
+    <h2>Booking Confirmation</h2>
+    <p>Thank you, {{ booking.client.first_name }}! Your booking for {{ booking.service.service_name }} has been confirmed.</p>
+    <p>Booking Date: {{ booking.booking_date }}</p>
+    <p>Status: {{ booking.status }}</p>
+    <p>Additional Notes: {{ booking.additional_notes }}</p>
+</body>
+</html>

@@ -1,0 +1,6 @@
+.env
+env/
+media/
+Hair Diseases - Final
+*.keras
+*.h5

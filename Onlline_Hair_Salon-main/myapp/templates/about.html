@@ -1,0 +1,397 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>GlamourQuest - About Us</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/open-iconic-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'css/aos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ionicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery.timepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        :root {
+            --primary-color: #FF69B4;
+            --secondary-color: #FFB6C1;
+            --accent-color: #FF1493;
+            --text-color: #333;
+            --bg-color: #FFF0F5;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            overflow-y: scroll;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: var(--primary-color);
+            padding: 1rem 0;
+        }
+        
+        .navbar-brand, .nav-link {
+            color: white !important;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link {
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+        }
+        
+        .nav-link:hover {
+            color: var(--secondary-color) !important;
+        }
+        
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: 2rem;
+        }
+        
+        .logo-wrapper {
+            width: 50px;
+            height: 50px;
+            overflow: hidden;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        main {
+            padding-top: 80px;
+            flex: 1;
+            width: 100%;
+        }
+
+        footer {
+            background-image: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+            color: var(--text-color);
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 -4px 10px rgba(255, 182, 193, 0.3);
+        }
+        
+        footer p {
+            margin: 0;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+        }
+        
+        footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 600;
+        }
+        
+        footer a:hover {
+            color: var(--text-color);
+        }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+          <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
+              <div class="logo-wrapper">
+                  <img src="{% static 'images/logo.png' %}" alt="GlamourQuest Icon" class="logo-img">
+              </div>
+              <span class="ms-3">GlamourQuest</span>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="ftco-nav">
+              <ul class="navbar-nav ms-auto">
+                  <li class="nav-item active"><a href="{% url 'index' %}" class="nav-link">Home</a></li>
+                  <li class="nav-item"><a href="{% url 'services' %}" class="nav-link">Services</a></li>
+                  <li class="nav-item"><a href="{% url 'gallery' %}" class="nav-link">Gallery</a></li>
+                  <li class="nav-item"><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                  <li class="nav-item"><a href="{% url 'blog' %}" class="nav-link">Blog</a></li>
+                  <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+                  <li class="nav-item"><a href="{% url 'login' %}" class="nav-link">Login</a></li>
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="signupDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Sign Up
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="signupDropdown">
+                          <li><a class="dropdown-item" href="{% url 'register' %}">Sign Up as Client</a></li>
+                          <li><a class="dropdown-item" href="{% url 'employee_registeration' %}">Sign Up as Employee</a></li>
+                      </ul>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </nav>
+    <main>
+        <section class="ftco-section ftco-no-pb ftco-no-pt">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 d-flex">
+						<div class="p-md-5 img img-2 d-flex justify-content-center align-items-center"style="background-image: url('{% static 'images/bg-2.jpg'%}');">
+							<a href="https://vimeo.com/45830194" class="icon popup-vimeo d-flex justify-content-center align-items-center">
+								<span class="icon-play"></span>
+							</a>
+						</div>
+					</div>
+					<div class="col-md-6 py-md-5 pb-5 wrap-about pb-md-5 ftco-animate">
+	          <div class="heading-section mb-4 mt-md-5">
+	          	<span class="subheading">About Us</span>
+	            <h2 class="mb-4">Welcome To GlamourQuest A Hair Salon</h2>
+	          </div>
+	          <div class="pb-md-5">
+							<p>But nothing the copy said could convince her and so it didn't take long until a few insidious Copy Writers ambushed her, made her drunk with Longe and Parole and dragged her into their agency, where they abused her for their.</p>
+							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="ftco-section ftco-team">
+    	<div class="container-fluid px-md-5">
+    		<div class="row justify-content-center pb-3">
+          <div class="col-md-10 heading-section text-center ftco-animate">
+          	<span class="subheading">Artistic Director</span>
+            <h2 class="mb-4">Makeup Artist</h2>
+            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
+          </div>
+        </div>
+        <div class="row">
+        	<div class="col-md-12 ftco-animate">
+        		<div class="carousel-team owl-carousel">
+        			<div class="item">
+		        		<a href="#" class="team text-center">
+		        			<div class="img"style="background-image: url('{% static 'images/stylist-1.jpg'%}');"></div>
+		        			<h2>Danica Lewis</h2>
+		        			<span class="position">Hair Stylist</span>
+		        		</a>
+        			</div>
+        			<div class="item">
+	        			<a href="#" class="team text-center">
+		        			<div class="img"style="background-image: url('{% static 'images/stylist-2.jpg '%}');"></div>
+		        			<h2>Nicole Simon</h2>
+		        			<span class="position">Nail Master</span>
+		        		</a>
+	        		</div>
+	        		<div class="item">
+	        			<a href="#" class="team text-center">
+							<div class="img"style="background-image: url('{% static 'images/stylist-3.jpg' %}');"></div>
+		        			<h2>Cloe Meyer</h2>
+		        			<span class="position">Director</span>
+		        		</a>
+	        		</div>
+	        		<div class="item">
+	        			<a href="#" class="team text-center">
+							<div class="img"style="background-image: url('{% static 'images/stylist-4.jpg '%}');"></div>
+		        			<h2>Rachel Clinton</h2>
+		        			<span class="position">Hair Stylist</span>
+		        		</a>
+	        		</div>
+	        		<div class="item">
+	        			<a href="#" class="team text-center">
+							<div class="img"style="background-image: url('{% static 'images/stylist-5.jpg' %}');"></div>
+		        			<h2>Dave Buff</h2>
+		        			<span class="position">Barber</span>
+		        		</a>
+	        		</div>
+        		</div>
+        	</div>
+        </div>
+    	</div>
+    </section>
+
+		
+		<section class="ftco-section ftco-no-pt ftco-no-pb">
+			<div class="container-fluid px-0">
+				<div class="row no-gutters">
+					<div class="col-md text-center d-flex align-items-stretch">
+						<div class="services-wrap d-flex align-items-center img"style="background-image: url('{% static 'images/formen.jpg '%}');">
+							<div class="text">
+								<h3>For Men</h3>
+								<p><a href="#" class="btn-custom">See pricing <span class="ion-ios-arrow-round-forward"></span></a></p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3 text-center d-flex align-items-stretch">
+						<div class="text-about py-5 px-4">
+							<h1 class="logo">
+								<a href="#"><span class="flaticon-scissors-in-a-hair-salon-badge"></span>GlamourQuest</a>
+							</h1>
+							<h2>Welcome to our Salon</h2>
+							<p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+							<p class="mt-3"><a href="#" class="btn btn-primary btn-outline-primary">Read more</a></p>
+						</div>
+					</div>
+					<div class="col-md text-center d-flex align-items-stretch">
+						<div class="services-wrap d-flex align-items-center img"style="background-image: url('{% static 'images/forwomen.jpg '%}');">
+							<div class="text">
+								<h3>For Women</h3>
+								<p><a href="#" class="btn-custom">See pricing <span class="ion-ios-arrow-round-forward"></span></a></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="testimony-section bg-light">
+      <div class="container">
+        <div class="row ftco-animate justify-content-center">
+        	<div class="col-md-6 col-lg-5 d-flex">
+        		<div class="testimony-img"style="background-image: url('{% static 'images/testimony-img.jpg' %}');"></div>
+        	</div>
+          <div class="col-md-6 col-lg-7 py-5 pl-md-5">
+          	<div class="py-md-5">
+	          	<div class="heading-section ftco-animate">
+	          		<span class="subheading">Testimony</span>
+			          <h2 class="mb-0">Happy Customer</h2>
+			        </div>
+	            <div class="carousel-testimony owl-carousel ftco-animate">
+	              <div class="item">
+	                <div class="testimony-wrap pb-4">
+	                  <div class="text">
+	                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+	                  </div>
+	                  <div class="d-flex">
+		                  <div class="user-img"style="background-image: url('{% static 'images/stylist-1.jpg'%}');">
+		                  </div>
+		                  <div class="pos ml-3">
+		                  	<p class="name">Jeff Nucci</p>
+		                    <span class="position">Businessman</span>
+		                  </div>
+		                </div>
+	                </div>
+	              </div>
+	              <div class="item">
+	                <div class="testimony-wrap pb-4">
+	                  <div class="text">
+	                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+	                  </div>
+	                  <div class="d-flex">
+						<div class="user-img"style="background-image: url('{% static 'images/stylist-2.jpg' %}');">
+		                  </div>
+		                  <div class="pos ml-3">
+		                  	<p class="name">Jeff Nucci</p>
+		                    <span class="position">Businessman</span>
+		                  </div>
+		                </div>
+	                </div>
+	              </div>
+	              <div class="item">
+	                <div class="testimony-wrap pb-4">
+	                  <div class="text">
+	                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+	                  </div>
+	                  <div class="d-flex">
+						<div class="user-img"style="background-image: url('{% static 'images/stylist-3.jpg' %}');">
+		                  </div>
+		                  <div class="pos ml-3">
+		                  	<p class="name">Jeff Nucci</p>
+		                    <span class="position">Businessman</span>
+		                  </div>
+		                </div>
+	                </div>
+	              </div>
+	              <div class="item">
+	                <div class="testimony-wrap pb-4">
+	                  <div class="text">
+	                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+	                  </div>
+	                  <div class="d-flex">
+						<div class="user-img"style="background-image: url('{% static 'images/stylist-4.jpg'%}');">
+		                  </div>
+		                  <div class="pos ml-3">
+		                  	<p class="name">Jeff Nucci</p>
+		                    <span class="position">Businessman</span>
+		                  </div>
+		                </div>
+	                </div>
+	              </div>
+	              <div class="item">
+	                <div class="testimony-wrap pb-4">
+	                  <div class="text">
+	                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+	                  </div>
+	                  <div class="d-flex">
+						<div class="user-img"style="background-image: url('{% static 'images/stylist-5.jpg' %}');">
+		                  </div>
+		                  <div class="pos ml-3">
+		                  	<p class="name">Jeff Nucci</p>
+		                    <span class="position">Businessman</span>
+		                  </div>
+		                </div>
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    </main>
+
+    <footer class="text-center">
+        <div class="container">
+            <p>&copy; 2025 <a href="{% url 'index' %}">GlamourQuest</a>. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+    <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'js/jquery.stellar.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/aos.js' %}"></script>
+    <script src="{% static 'js/jquery.animateNumber.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+    <script src="{% static 'js/jquery.timepicker.min.js' %}"></script>
+    <script src="{% static 'js/scrollax.min.js' %}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+    <script src="{% static 'js/google-map.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>

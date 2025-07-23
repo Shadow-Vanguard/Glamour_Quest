@@ -1,0 +1,35 @@
+
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Your Bookings</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Service</th>
+                <th>Client</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.service.service_name }}</td>
+                <td>{{ booking.client.first_name }} {{ booking.client.last_name }}</td>
+                <td>{{ booking.booking_date }}</td>
+                <td>{{ booking.booking_time }}</td>
+                <td>{{ booking.status }}</td>
+                <td>
+                    {% if booking.status == 'Completed' and booking.feedback %}
+                        <a href="{% url 'view_feedback' booking.id %}" class="btn btn-info btn-sm">View Feedback</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

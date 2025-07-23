@@ -1,0 +1,6 @@
+<h1>Recommended Services for You</h1>
+<ul>
+    {% for service in recommendations %}
+        <li>{{ service.service_name }} - {{ service.description }}</li>
+    {% endfor %}
+</ul>

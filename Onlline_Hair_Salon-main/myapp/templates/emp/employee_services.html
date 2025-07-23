@@ -1,0 +1,140 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color:#ff7e5f;
+            font-size: 2.5rem; /* Larger font size */
+            font-weight: bold; /* Bolder text */
+        }
+
+        .container {
+            max-width: 800px; /* Limit the max width of the table */
+            margin: auto; /* Center the container */
+            padding: 20px;
+            background-color: white; /* White background for the container */
+            border-radius: 12px; /* Rounded corners */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+        }
+
+        .table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            font-size: 1rem; /* Base font size */
+        }
+
+        .table th, .table td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 12px;
+            transition: background-color 0.3s; /* Smooth background transition */
+        }
+
+        .table th {
+            background-color: #ff7e5f; /* Primary header color */
+            color: white;
+            text-transform: uppercase; /* Uppercase text for headers */
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f9f9f9; /* Slightly lighter for even rows */
+        }
+
+        .table tr:hover {
+            background-color: #e0e0e0; /* Change background on hover */
+        }
+
+        .table td {
+            position: relative; /* Relative positioning for tooltips */
+        }
+
+        /* Tooltip styles */
+        .table td::after {
+            content: attr(data-tooltip); /* Use data-tooltip attribute */
+            position: absolute;
+            left: 50%;
+            bottom: 100%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            white-space: nowrap; /* Prevent line breaks */
+            visibility: hidden; /* Hide by default */
+            opacity: 0; /* Hide tooltip */
+            transition: opacity 0.3s; /* Smooth transition */
+            z-index: 10; /* Ensure it is on top */
+        }
+
+        .table td:hover::after {
+            visibility: visible; /* Show tooltip on hover */
+            opacity: 1; /* Fade in tooltip */
+        }
+
+        .no-services {
+            text-align: center; /* Center text */
+            color: #ff7e5f; /* Primary color for no services message */
+            font-weight: bold; /* Bold text */
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem; /* Smaller font on smaller screens */
+            }
+
+            .table th, .table td {
+                font-size: 0.9rem; /* Smaller font for table cells */
+            }
+
+            .container {
+                padding: 15px; /* Reduce padding on smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Our Services</h1>
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Service Name</th>
+                    <th>Description</th>
+                    <th>Rate </th>
+                    <th>Duration</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for service in services %}
+                    <tr>
+                        <td data-tooltip="Click to learn more">{{ service.name }}</td>
+                        <td>{{ service.description }}</td>
+                        <td>{{ service.rate }}</td>
+                        <td>{{ service.duration }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4" class="no-services">No services available at the moment.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,264 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - GlamourQuest</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #FF69B4;
+            --secondary-color: #FFB6C1;
+            --accent-color: #FF1493;
+            --text-color: #333;
+            --bg-color: #FFF0F5;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+        .login-container {
+            display: flex;
+            width: 80%;
+            max-width: 1000px;
+            height: 80vh;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .login-image {
+            flex: 1;
+            background: url("{% static 'images/login.jpg' %}") no-repeat center center;
+            background-size: cover;
+        }
+        .login-box {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-y: auto;
+        }
+        .login-box h1 {
+            font-size: 28px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .textbox {
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .textbox i {
+            position: absolute;
+            left: 10px;
+            top: 12px;
+            color: var(--primary-color);
+        }
+        .textbox input, .textbox select {
+            width: 100%;
+            padding: 10px 30px;
+            border: 1px solid var(--secondary-color);
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border 0.3s;
+        }
+        .textbox input:focus, .textbox select:focus {
+            border-color: var(--accent-color);
+            outline: none;
+        }
+        .btn-primary {
+            width: 100%;
+            background-color: var(--accent-color);
+            border: none;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-color);
+        }
+        h4 {
+            text-align: center;
+            color: var(--text-color);
+            font-size: 14px;
+            margin-top: 20px;
+        }
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .password-strength {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <!-- Image Section -->
+        <div class="login-image"></div>
+
+        <!-- Registration Form Section -->
+        <div class="login-box">
+            <h1>SIGN UP</h1>
+            {% if messages %}
+                <div class="alert alert-success" role="alert">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <form method="post" action="{% url 'register' %}" onsubmit="return validateForm()">
+                {% csrf_token %}
+                <div class="textbox">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    {{ form.first_name.errors }}
+                    <input type="text" placeholder="First Name" name="first_name" required>
+                </div>
+                <div class="textbox">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    {{ form.last_name.errors }}
+                    <input type="text" placeholder="Last Name" name="last_name" required>
+                </div>
+                <div class="textbox">
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                    {{ form.email.errors }}
+                    <input type="email" placeholder="Email" name="email" required oninput="validateEmail()">
+                    <div class="error" id="emailError"></div>
+                </div>
+                <div class="textbox">
+                    <i class="fa fa-lock" aria-hidden="true"></i>
+                    {{ form.password.errors }}
+                    <input type="password" placeholder="Password" name="password" required oninput="validatePassword()">
+                    <div class="error" id="passwordError"></div>
+                    <div id="passwordStrength" class="password-strength"></div> <!-- Password strength indicator -->
+                </div>
+                <div class="textbox">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    {{ form.dob.errors }}
+                    <input type="date" placeholder="Date of Birth" name="dob" id="dob" required oninput="validateDOB()">
+                    <div class="error" id="dobError"></div>
+                </div>
+                <div class="textbox">
+                    <i class="fa fa-phone" aria-hidden="true"></i>
+                    {{ form.contact.errors }}
+                    <input type="tel" placeholder="Contact" name="contact" required pattern="\d{10}" oninput="validateContact()">
+                    <div class="error" id="contactError"></div>
+                </div>
+                <div class="textbox">
+                    <i class="fa fa-venus-mars" aria-hidden="true"></i>
+                    {{ form.gender.errors }}
+                    <select name="gender" required>
+                        <option value="">Select Gender</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                        <option value="O">Other</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            <h4>Already have an account? <a style="color: var(--accent-color)" href="{% url 'login' %}"><b>LOGIN</b></a></h4>
+        </div>
+    </div>
+
+    <script>
+        function validateForm() {
+            let isValid = true;
+
+            // Call all validation functions to ensure final validation before submission
+            validateEmail();
+            validatePassword();
+            validateDOB();
+            validateContact();
+
+            // Check if any error messages are present
+            if (document.querySelectorAll('.error:empty').length < 4) {
+                isValid = false;
+            }
+
+            return isValid; // Prevent form submission if validation fails
+        }
+
+        function validateEmail() {
+            const email = document.querySelector('input[name="email"]').value;
+            const emailError = document.getElementById('emailError');
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/; // Only allow @gmail.com
+            if (!emailPattern.test(email)) {
+                emailError.textContent = "Email must be a valid Gmail address.";
+            } else {
+                emailError.textContent = "";
+            }
+        }
+
+        function validatePassword() {
+            const password = document.querySelector('input[name="password"]').value;
+            const passwordError = document.getElementById('passwordError');
+            const passwordStrength = document.getElementById('passwordStrength');
+            const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/; // At least 8 characters, 1 uppercase, 1 lowercase, 1 special character
+            
+            // Check password strength
+            let strength = "Weak";
+            if (password.length >= 8) {
+                if (/(?=.*[a-z])/.test(password) && /(?=.*[A-Z])/.test(password) && /(?=.*\W)/.test(password)) {
+                    strength = "Strong";
+                } else if (/(?=.*[a-z])/.test(password) && /(?=.*[A-Z])/.test(password)) {
+                    strength = "Medium";
+                }
+            }
+
+            // Update password strength display
+            passwordStrength.textContent = `Password Strength: ${strength}`;
+            passwordStrength.style.color = strength === "Strong" ? "green" : strength === "Medium" ? "orange" : "red";
+
+            if (!passwordPattern.test(password)) {
+                passwordError.textContent = "Password must contain at least 8 characters, including uppercase, lowercase, and special characters.";
+            } else {
+                passwordError.textContent = "";
+            }
+        }
+
+        function validateDOB() {
+            const dob = new Date(document.getElementById('dob').value);
+            const today = new Date();
+            const age = today.getFullYear() - dob.getFullYear();
+            const dobError = document.getElementById('dobError');
+            if (age < 10 || (age === 10 && today < new Date(dob.setFullYear(dob.getFullYear() + 10)))) {
+                dobError.textContent = "You must be at least 10 years old.";
+            } else {
+                dobError.textContent = "";
+            }
+        }
+
+        function validateContact() {
+            const contact = document.querySelector('input[name="contact"]').value;
+            const contactError = document.getElementById('contactError');
+            const allZerosPattern = /^0{10}$/; // Pattern to check for ten zeros
+            if (!/^\d{10}$/.test(contact) || allZerosPattern.test(contact)) {
+                contactError.textContent = "Contact number must be exactly 10 digits and cannot be all zeros.";
+            } else {
+                contactError.textContent = "";
+            }
+        }
+    </script>
+</body>
+</html>

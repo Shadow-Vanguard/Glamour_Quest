@@ -1,0 +1,345 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlamourQuest Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #007bff; /* Bootstrap primary color */
+            --secondary-color: #6c757d; /* Bootstrap secondary color */
+            --background-color: #f4f7fa; /* Light background for the dashboard */
+            --card-bg: #ffffff; /* Card background */
+            --text-color: #333; /* Text color */
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .main-content {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 30px; /* Increased padding for a spacious feel */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Deeper shadow for depth */
+        }
+
+        .card {
+            border: none; /* Remove default border */
+            border-radius: 8px; /* Rounded corners for cards */
+            transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for hover effects */
+        }
+
+        .card:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none; /* Remove border */
+            transition: background-color 0.3s; /* Smooth transition for button hover */
+        }
+
+        .btn-primary:hover {
+            background-color: darken(var(--primary-color), 10%); /* Darken on hover */
+        }
+
+        .header {
+            background: var(--primary-color); /* Header background color */
+            color: white; /* Header text color */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for header */
+        }
+
+        .header h1 {
+            font-size: 1.75rem; /* Increased font size for header */
+        }
+
+        .sidebar {
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding-top: 20px;
+        }
+        .sidebar-sticky {
+            position: sticky;
+            top: 0;
+            height: calc(100vh - 48px);
+            padding-top: .5rem;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .sidebar .nav-link {
+            color: white;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+        .sidebar .nav-link:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateX(5px);
+        }
+        .sidebar .nav-link.active {
+            background-color: rgba(255,255,255,0.2);
+        }
+        .sidebar {
+        position: fixed; /* Make the sidebar fixed */
+        height: 100vh; /* Full height of the viewport */
+        width: 250px; /* Set a fixed width for the sidebar */
+        /* ... existing styles ... */
+        }
+       .main-content {
+        margin-left: 5px; /* Adjust main content margin to accommodate the sidebar */
+        padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 15px 20px;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .header .profile-dropdown .dropdown-toggle {
+            color: white;
+        }
+        .header .profile-dropdown .dropdown-menu {
+            background-color: var(--card-bg);
+        }
+        .header .profile-dropdown .dropdown-item:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        .profile-dropdown .dropdown-toggle::after {
+            display: none;
+        }
+        .scrolling-background {
+            height: 500px;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 1s ease-in-out;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        .scrolling-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(127,140,141,0.3), rgba(149,165,166,0.3));
+            z-index: 1;
+        }
+        .logo-container {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: white;
+            background-color: rgba(127, 140, 141, 0.6);
+            padding: 15px;
+            cursor: pointer;
+            z-index: 2;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .arrow:hover {
+            background-color: rgba(127, 140, 141, 0.8);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .arrow-left {
+            left: 20px;
+        }
+        
+        .arrow-right {
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky sidebar-sticky">
+                    <h2 class="text-center mb-4">GlamourQuest Admin</h2>
+                    <div class="logo-container">
+                        <img src="{% static 'images/logo.png' %}" alt="GlamourQuest Logo" class="logo">
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'admin_dashboard' %}">
+                                <i class="fas fa-home me-2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'manage_client' %}">
+                                <i class="fas fa-users me-2"></i> Manage Clients
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'manage_employee' %}" id="manage_employee">
+                                <i class="fas fa-user-tie me-2"></i> Manage Employees
+                            </a>
+                        </li>
+                    
+                       
+        
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'service_selection' %}">
+                                <i class="fas fa-cogs me-2"></i> Add services
+                            </a>
+                        </li>
+                        
+                       
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'category_selection' %}">
+                                <i class="fas fa-tags me-2"></i> Add category
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'offer_selection' %}">
+                                <i class="fas fa-gift me-2"></i> Add offers
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'offer_list_selection' %}">
+                                <i class="fas fa-gifts me-2"></i> view offers 
+                            </a>
+                        </li>
+                       
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <!-- Header -->
+                <header class="header d-flex justify-content-between align-items-center mb-4 p-3 bg-white rounded shadow-sm">
+                    <h1 class="h3 mb-0">Welcome, Admin!</h1>
+                    <div class="profile-dropdown dropdown">
+                        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{% static 'images/profile.png' %}" alt="Profile" width="32" height="32" class="rounded-circle me-2">
+                            <strong>Admin</strong>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end text-small shadow" aria-labelledby="dropdownUser1">
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
+                        </ul>
+                    </div>
+                </header>
+
+                <!-- Updated Dashboard Options -->
+                <div class="main-content d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Manage Clients</h5>
+                                    <p class="card-text">View and manage client information.</p>
+                                    <a href="{% url 'manage_client' %}" class="btn btn-primary">Go to Clients</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Manage Employees</h5>
+                                    <p class="card-text">View and manage employee information.</p>
+                                    <a href="{% url 'manage_employee' %}" class="btn btn-primary">Go to Employees</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Manage offers</h5>
+                                    <p class="card-text">Check and manage all offers.</p>
+                                    <a href="{% url 'offer_selection' %}" class="btn btn-primary">Go to offers</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Manage Services</h5>
+                                    <p class="card-text">Add, edit, or remove salon services.</p>
+                                    <a href="{% url 'service_selection' %}" class="btn btn-primary" id="manage_services">Go to Services</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Add Categories</h5>
+                                    <p class="card-text">Manage service categories.</p>
+                                    <a href="{% url 'category_selection' %}" class="btn btn-primary">Go to Categories</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentIndex = 0;
+        const backgrounds = [
+            "{% static 'images/hair-styling.jpg' %}",
+            "{% static 'images/manicure.jpg' %}",
+            "{% static 'images/hair-spa.jpg' %}",
+            "{% static 'images/all-type.jpg' %}"
+        ];
+
+        function changeBackground(direction = 1) {
+            currentIndex = (currentIndex + direction + backgrounds.length) % backgrounds.length;
+            updateBackground();
+        }
+
+        function updateBackground() {
+            const scrollingBackground = document.querySelector('.scrolling-background');
+            scrollingBackground.style.backgroundImage = `url(${backgrounds[currentIndex]})`;
+        }
+
+        // Set initial background and start cycling
+        window.onload = function() {
+            updateBackground();
+            setInterval(() => changeBackground(1), 5000);  // Change background every 5 seconds
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,225 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlamourQuest - Beauty & Wellness</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #FF69B4;
+            --secondary-color: #FFB6C1;
+            --dark-color: #2C3E50;
+            --light-color: #ECF0F1;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            color: var(--primary-color) !important;
+            font-weight: bold;
+            font-size: 1.8rem;
+        }
+
+        .main-section {
+            min-height: 100vh;
+            padding: 80px 0;
+            background: linear-gradient(135deg, #fff5f8 0%, #fff 100%);
+        }
+
+        .service-box {
+            position: relative;
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 20px 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .service-box:hover {
+            transform: translateY(-10px);
+        }
+
+        .service-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .service-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.7));
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+            color: white;
+        }
+
+        .service-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .service-description {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .btn-explore {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .btn-explore:hover {
+            background-color: white;
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .welcome-text {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .welcome-text h1 {
+            color: var(--dark-color);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .welcome-text p {
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .service-box {
+                height: 400px;
+            }
+            
+            .service-title {
+                font-size: 2rem;
+            }
+            
+            .welcome-text h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <i class="fas fa-spa"></i> GlamourQuest
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section class="main-section">
+        <div class="container">
+            <!-- Welcome Text -->
+            <div class="welcome-text">
+                <h1>Welcome to GlamourQuest</h1>
+                <p>Discover the perfect blend of beauty and wellness services tailored just for you</p>
+                
+                <!-- Features -->
+                <div class="features">
+                    <div class="feature-item">
+                        <i class="fas fa-star feature-icon"></i>
+                        <p>Premium Services</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-user-tie feature-icon"></i>
+                        <p>Expert Staff</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-gem feature-icon"></i>
+                        <p>Luxury Experience</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service Boxes -->
+            <div class="row">
+                <!-- Women Services -->
+                <div class="col-md-6">
+                    <div class="service-box">
+                        <img src="{% static 'images/forwomen.jpg' %}" alt="Women Services" class="service-image">
+                        <div class="service-overlay">
+                            <h2 class="service-title">For Women</h2>
+                            <p class="service-description">Indulge in our exclusive range of beauty and wellness services designed specifically for women.</p>
+                            <a href="{% url 'client_dashboard' %}" class="btn-explore">Explore Services</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Men Services -->
+                <div class="col-md-6">
+                    <div class="service-box">
+                        <img src="{% static 'images/formen.jpg' %}" alt="Men Services" class="service-image">
+                        <div class="service-overlay">
+                            <h2 class="service-title">For Men</h2>
+                            <p class="service-description">Experience professional grooming and wellness services tailored for the modern man.</p>
+                            <a href="#" class="btn-explore">Explore Services</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-light py-4">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2024 GlamourQuest. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
